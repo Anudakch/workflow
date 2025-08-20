@@ -5,7 +5,7 @@ on:
     paths:
       - 'code/**'
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
