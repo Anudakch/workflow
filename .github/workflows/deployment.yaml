@@ -3,7 +3,7 @@ name: Deploy to KillerKoda
 on:
   push:
     paths:
-      - 'code/**'
+      - 'local/test/deployment'
     branches:
       - master
 
@@ -28,5 +28,5 @@ jobs:
 
     - name: Apply Kubernetes manifests
       run: |
-        kubectl apply -f code/
+        kubectl apply -f local/test/deployment
 
