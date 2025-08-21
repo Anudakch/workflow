@@ -1,0 +1,228 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sample-pod1
+spec:
+  containers:
+  - name: sample-container
+    image: nginx
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sample
+  template:
+    metadata:
+      labels:
+        app: sample
+    spec:
+      containers:
+      - name: sample-container
+        image: nginx
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-service
+spec:
+  selector:
+    app: sample
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sample-statefulset
+spec:
+  serviceName: "sample"
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sample
+  template:
+    metadata:
+      labels:
+        app: sample
+    spec:
+      containers:
+      - name: sample-container
+        image: nginx
+        volumeMounts:
+        - name: data
+          mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi
+
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: sample-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: sample-daemon
+  template:
+    metadata:
+      labels:
+        app: sample-daemon
+    spec:
+      containers:
+      - name: sample-container
+        image: nginx
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sample-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: sample-job
+        image: busybox
+        command: ["echo", "Hello from Job"]
+      restartPolicy: Never
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: sample-cronjob
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: sample-cronjob
+            image: busybox
+            command: ["echo", "Hello from CronJob"]
+          restartPolicy: OnFailure
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sample-config
+data:
+  config-key: config-value
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sample-secret
+type: Opaque
+data:
+  password: c2VjcmV0
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: sample-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /mnt/data
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sample-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sample-ingress
+spec:
+  rules:
+  - host: example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sample-service
+            port:
+              number: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: sample-network-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: sample
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: sample
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: sample
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: sample-role
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: sample-rolebinding
+subjects:
+- kind: User
+  name: sample-user
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: sample-role
+  apiGroup: rbac.authorization.k8s.io
