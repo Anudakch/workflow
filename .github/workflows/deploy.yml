@@ -19,9 +19,9 @@ jobs:
          
       - name: install docker..
         run: |
-              apt-get -y install dnf-plugins-core
-              apt-get config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo 
-              apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+              yum  -y install dnf-plugins-core
+              yum  config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo 
+              yum  -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
       - name: Start proccess.
         run: |
