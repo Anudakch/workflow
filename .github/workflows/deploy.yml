@@ -1,4 +1,4 @@
-name:  deploy file 
+name:  deploy 
 
 on: 
  push:
@@ -19,9 +19,9 @@ jobs:
          
       - name: install docker..
         run: |
-         sudo dnf -y install dnf-plugins-core
-         sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo 
-         sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+              apt-get -y install dnf-plugins-core
+              apt-get config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo 
+              apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
       - name: Start proccess.
         run: |
