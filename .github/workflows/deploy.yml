@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Apply Kubernetes manifest
-        run: kubectl apply -f workflow/localtest/Untiled.txt
-        env:
-          KUBECONFIG: /home/ubuntu/.kube/config
+      -  name: Apply Kubernetes manifest
+         run: kubectl apply -f workflow/localtest/Untitled.txt
+         env:
+           KUBECONFIG: /home/ubuntu/.kube/config
