@@ -15,4 +15,4 @@ jobs:
 
       - name: Apply Kubernetes manifest
         run: |
-          kubectl apply -f workflow/local/Untiled.yaml
+          kubectl apply -f workflow/localtest/Untitled.txt
