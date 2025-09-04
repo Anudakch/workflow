@@ -32,7 +32,7 @@ data:
     </head>
     <body>
         <h1>AART KUMAR DAKCH </h1>
-        <p>This is Persnol stattic website only for me.</p>
+        <p>This is Persnol stattic website only for mine.</p>
     </body>
     </html>
 ---
