@@ -1,29 +1,18 @@
-name:  deploy 
+name: Deploy
 
-on: 
- push:
-  branches:
-    - master
+on:
+  push:
+    branches:
+      - master
 
 jobs:
-    build:
-      runs-on: self-hosted
+  deploy:
+    runs-on: self-hosted
 
-      steps:
+    steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: create a file
+      - name: Apply Kubernetes manifest
         run: |
-         mkdir -p local/testing
-         
-      - name: install docker..
-        run: |
-            sudo   yum  -y install dnf-plugins-core
-            sudo   yum  config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo 
-            sudo   yum  -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-      - name: Start proccess.
-        run: |
-          sudo systemctl enable --now docker 
-
+          kubectl apply -f workflow/local/Untiled.yaml
